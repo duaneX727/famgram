@@ -1,7 +1,7 @@
 /** @format */
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -12,7 +12,7 @@ import { z } from "zod";
 import Loader from "@/components/ui/shared/Loader";
 import { createUserAccount } from "@/lib/appwrite/api";
 import { useToast } from "@/components/ui/use-toast"
-import {useCreateUserAccountMutation} from "@/lib/react-query/queriesAndMutations"
+import {useCreateUserAccount, useSignInAccount} from "@/lib/react-query/queriesAndMutations"
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -20,7 +20,9 @@ const formSchema = z.object({
 
 const SignupForm = () => {
   const { toast } = useToast();
-  const {mutateAsync: createUserAccount,isLoading: isCreatingUser} = useCreateUserAccountMutation()
+  const {mutateAsync: createUserAccount,isPending: isCreatingUser} = useCreateUserAccount()
+  const {mutateAsync: signInAccount,isPending: isSigningIn} = useSignInAccount()
+  const navigate = useNavigate()
   // 1. Define your form.
   const form = useForm<z.infer<typeof SignupValidation>>({
     resolver: zodResolver(SignupValidation),
@@ -40,7 +42,17 @@ const SignupForm = () => {
         title: 'Sign up failed. Please try again.',
       })
      }
-     //const session = await signInAccount()
+     const session = await signInAccount({
+        email: values.email,
+        password: values.password,
+     })
+     if(!session){
+      return toast({ title: "Something went wrong. Please login your new account", });
+        
+       navigate("/sign-in");
+      
+       return;
+     }
 
   }
   return (
