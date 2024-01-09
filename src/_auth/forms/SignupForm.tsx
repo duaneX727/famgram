@@ -9,7 +9,7 @@ import {Form,FormControl,FormField,FormItem,FormLabel,FormMessage,
 } from "@/components/ui/form";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
-import Loader from "@/components/ui/shared/Loader";
+import Loader from "@/components/shared/Loader";
 import { createUserAccount } from "@/lib/appwrite/api";
 import { useToast } from "@/components/ui/use-toast"
 import {useCreateUserAccount, useSignInAccount} from "@/lib/react-query/queriesAndMutations"
