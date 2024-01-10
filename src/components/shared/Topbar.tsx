@@ -11,7 +11,7 @@ const Topbar = () => {
 
   useEffect(() => {
     if(isSuccess) navigate(0)
-  },[])
+  },[isSuccess])
   return (
     <section className="topbar">
       <div className="flex-between py-4 px-5 ">
@@ -27,6 +27,7 @@ const Topbar = () => {
           <Button variant="ghost" className="shad-button_ghost" onClick={() => signOut}>
             <img src="/assets/icons/logout.svg" alt="logout" />
           </Button>
+          <p></p>
           <Link to={`/profile/${user.id}`} className="flex center gap-3">
             <img src="/assets/images/avatar.png" alt="avatar" className="w-8 h-8 rounded-full" />
             <img src={user.imageUrl || '/assets/images/profile-placeholder.svg'} alt="profile" className="h-8 w-8 rounded-full"/>
