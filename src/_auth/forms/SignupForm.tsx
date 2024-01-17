@@ -15,9 +15,9 @@ import { useToast } from "@/components/ui/use-toast"
 import {useCreateUserAccount, useSignInAccount} from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext";
 
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-})
+// const formSchema = z.object({
+//   username: z.string().min(2).max(50),
+// })
 
 const SignupForm = () => {
   const { toast } = useToast();
