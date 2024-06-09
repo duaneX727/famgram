@@ -106,22 +106,22 @@ const PostForm = ({post}: PostFormProps) => {
               </FormLabel>
               <FormControl>
                 <Input type="text"  className="shad-input"
-                placeholder="Art, Expression, Learning, etc." {...field}/>
+                placeholder="Art, Expression, Learn, etc." {...field}/>
               </FormControl>  
               <FormMessage className="shad-form_message"/>
             </FormItem>
           )}
         />
         <div className="flex gap-4 items-center justify-end">
-           <Button type="button"
-            className="shad-button_dark_4">
-              Cancel
-           </Button>
-        <Button 
-        type="submit"
-        className="shad-button_primary whitespace-nowrap">
-          Submit
-        </Button>
+            <Button type="button"
+              className="shad-button_dark_4">
+                Cancel
+            </Button>
+            <Button 
+              type="submit"
+              className="shad-button_primary whitespace-nowrap">
+                Submit
+            </Button>
         </div>
       </form>
     </Form>

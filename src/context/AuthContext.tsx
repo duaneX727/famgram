@@ -36,7 +36,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
   const navigate = useNavigate()
 
   const checkAuthUser = async () => {
-    setIsLoading(true);
+   setIsLoading(true);
    try {
     const currentAccount = await getCurrentUser()
     if(currentAccount){
@@ -79,7 +79,8 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     setIsAuthenticated,
     checkAuthUser,
   }
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider> 
+  return <AuthContext.Provider value={value}>   
+  {children}</AuthContext.Provider> 
 }
 
 export const useUserContext = () => useContext(AuthContext)

@@ -19,12 +19,12 @@ import { useUserContext } from "@/context/AuthContext";
 //   username: z.string().min(2).max(50),
 // })
 
-const SignInForm = () => {
+const SigninForm = () => {
   const { toast } = useToast();
   const {checkAuthUser, isLoading: isUserLoading} = useUserContext()
   const navigate = useNavigate()
 
-  const {mutateAsync: signInAccount,isPending} = useSignInAccount()
+  const {mutateAsync: signInAccount,isPending:isSigningIn} = useSignInAccount()
   // 1. Define your form.
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -37,25 +37,26 @@ const SignInForm = () => {
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
    
     // Sign in the user 
-     
+    const isLoggedIn = await checkAuthUser();
+     // console.log(isLoggedIn)
+     if(isLoggedIn){
+       form.reset()
+       navigate("/");
+     } else  {
+      navigate("/sign-up");
+      return toast({title:"I can't find your account. Please sign up.",})
+     }
      const session = await signInAccount({
         email: values.email,
         password: values.password,
      })
      
      if(!session){
-      return toast({ title: "Something went wrong. Please login your new account", });
+      return toast({ title: "Something went wrong. Please log in to your new account", });
        navigate("/sign-in");
        return;
      }
-     const isLoggedIn = await checkAuthUser();
-     console.log(isLoggedIn)
-     if(isLoggedIn){
-       form.reset()
-       navigate("/");
-     } else  {
-      return toast({title: 'Sign in failed. Please try again.',})
-     }
+     
   }
   return (
     <Form {...form}>
@@ -63,7 +64,7 @@ const SignInForm = () => {
         <img src="/assets/images/logo.svg"
          alt="logo"/>
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log in to your acccount</h2>
-        <p className="text-light-3 small-medium md:base-regular mt-2">To Welcome back! Please enter your details.</p>
+        <p className="text-light-3 small-medium md:base-regular mt-2">Welcome back! Please enter your details.</p>
      
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
         <FormField
@@ -99,11 +100,11 @@ const SignInForm = () => {
           )}
         />
         <Button type="submit" className="shad-button_primary">
-          {isUserLoading ? (
+          {isSigningIn || isUserLoading ? (
             <div className="flex-center gap-2">
              <Loader /> Loading...
             </div>
-          ): "Sign  in"}
+          ): "Sign in"}
         </Button>
         <p className="text-small-regular text-light-2 text-center mt-2">
           Don't have an account?
@@ -114,4 +115,4 @@ const SignInForm = () => {
     </Form>
   );
 };
-export default SignInForm;
+export default SigninForm;
